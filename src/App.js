@@ -1,26 +1,64 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import util from './util';
+import Theform from './components/Theform';
+import CardList from './components/CardList';
+import ErrCardlist from './components/ErrorCardlist';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const testData = [
+  'sophiebits',
+  'sebmarkbage',
+  'bvaughn'
+];
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      profiles: [],
+      errList: []
+    };
+    this.initialData().then(list => {
+      console.log('Success', list);
+    });
+  }
+
+  initialData = async () => {
+    const list = await util.getMulpleUsers(testData);
+    this.setState({profiles: list});
+    return list;
+  }
+  
+  updateList = async (username) => {
+    try {
+      const newUser = await util.findGitHubUser(username);
+      const usersList = [newUser, ...this.state.profiles];
+      this.setState({ profiles: usersList });
+    } catch(err) {
+      console.log('error cachado', err);
+      const errmsj = new Error(err && err.message ? err.message : 'Unexpected error occurred.');
+      this.setState({errList: [errmsj] });
+    }
+  }
+  
+  clearErrMsj = () => {
+    this.setState({ errList: [] });
+  };
+  
+  render() {
+    return (
+      <div>
+        <div className="header">
+          {this.props.title}
+        </div>
+        <Theform updateTheList={this.updateList} />
+        <ErrCardlist messages={this.state.errList} 
+          claerAction={this.clearErrMsj} />
+        <CardList data={this.state.profiles} />
+      </div>
+    );
+  }
 }
 
 export default App;

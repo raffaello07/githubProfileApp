@@ -11,3 +11,39 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.github-profile {
+	margin: 1rem;
+}
+.github-profile  img {
+  width: 75px;
+}
+
+.github-profile .info {
+  display: inline-block;
+  margin-left: 12px;
+}
+
+.github-profile .info .name {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+form {
+	border: thin solid rgba(255, 255, 255, 0.15);
+  background-color: #181c20;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+	text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+*{
+  background-color: #121212;
+  color: #ccc;
+}
